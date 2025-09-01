@@ -1,663 +1,120 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fikspunktteorem - Interaktiv Illustrasjon</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            font-family: 'Arial', sans-serif;
-            color: white;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Index-side</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+    }
+    header {
+        background: #007acc;
+        color: white;
+        padding: 15px;
+        text-align: center;
+    }
+    nav {
+        background: #333;
+    }
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+    }
+    nav li {
+        flex: 1;
+    }
+    nav a {
+        display: block;
+        padding: 14px;
+        color: white;
+        text-decoration: none;
+        text-align: center;
+    }
+    nav a:hover {
+        background: #575757;
+    }
+    /* Hamburger-knapp */
+    .menu-toggle {
+        display: none;
+        background: #333;
+        color: white;
+        border: none;
+        padding: 14px;
+        font-size: 18px;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
+    }
+    @media (max-width: 600px) {
+        nav ul {
+            flex-direction: column;
+            display: none;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .title {
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            color: white;
-        }
-        
-        .content {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
-        }
-        
-        .controls {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 300px;
-            flex-shrink: 0;
-        }
-        
-        .control-group {
-            margin-bottom: 20px;
-        }
-        
-        .control-group:last-child {
-            margin-bottom: 0;
-        }
-        
-        label {
+        nav ul.showing {
             display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #ffffff;
-            font-size: 14px;
         }
-        
-        input[type="range"] {
-            width: 100%;
-            height: 6px;
-            border-radius: 3px;
-            background: rgba(255, 255, 255, 0.2);
-            outline: none;
-            -webkit-appearance: none;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #e74c3c;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        .value-display {
-            font-size: 12px;
-            color: #b0b0b0;
-            margin-top: 4px;
-        }
-        
-        .function-selector {
-            margin-bottom: 20px;
-        }
-        
-        select {
-            width: 100%;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 14px;
-        }
-        
-        select option {
-            background: #2c3e50;
-            color: white;
-        }
-        
-        .iteration-controls {
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 8px;
-            background: #e74c3c;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        button:hover {
-            background: #c0392b;
-        }
-        
-        .canvas-container {
-            flex: 1;
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        canvas {
+        .menu-toggle {
             display: block;
-            width: 100%;
-            height: 500px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
         }
-        
-        .info {
-            margin-top: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        .fixed-point {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        
-        .convergent {
-            color: #27ae60;
-            font-weight: bold;
-        }
-        
-        .divergent {
-            color: #e67e22;
-            font-weight: bold;
-        }
-    </style>
+    }
+    main {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    ul.links {
+        list-style: none;
+        padding: 0;
+    }
+    ul.links li {
+        margin: 10px 0;
+    }
+    ul.links a {
+        color: #007acc;
+        font-size: 18px;
+        text-decoration: none;
+    }
+    ul.links a:hover {
+        text-decoration: underline;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="title">Fikspunktteorem - Interaktiv Illustrasjon</div>
-        
-        <div class="content">
-            <div class="controls">
-                <div class="function-selector">
-                    <label for="functionSelect">Velg funksjon:</label>
-                    <select id="functionSelect">
-                        <option value="linear">f(x) = ax + b</option>
-                        <option value="quadratic">f(x) = ax² + bx + c</option>
-                        <option value="cubic">f(x) = ax³ + bx² + cx + d</option>
-                        <option value="sin">f(x) = a⋅sin(bx) + c</option>
-                        <option value="exp">f(x) = ae^(bx) + c</option>
-                        <option value="sqrt">f(x) = a√(x + b) + c</option>
-                    </select>
-                </div>
-                
-                <div class="control-group">
-                    <label for="paramA">Parameter a:</label>
-                    <input type="range" id="paramA" min="-2" max="2" step="0.1" value="0.5">
-                    <div class="value-display" id="paramAValue">0.5</div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="paramB">Parameter b:</label>
-                    <input type="range" id="paramB" min="-3" max="3" step="0.1" value="0.5">
-                    <div class="value-display" id="paramBValue">0.5</div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="paramC">Parameter c:</label>
-                    <input type="range" id="paramC" min="-2" max="2" step="0.1" value="0">
-                    <div class="value-display" id="paramCValue">0.0</div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="paramD">Parameter d:</label>
-                    <input type="range" id="paramD" min="-2" max="2" step="0.1" value="0">
-                    <div class="value-display" id="paramDValue">0.0</div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="startPoint">Startpunkt x₀:</label>
-                    <input type="range" id="startPoint" min="-3" max="3" step="0.1" value="1">
-                    <div class="value-display" id="startPointValue">1.0</div>
-                </div>
-                
-                <div class="iteration-controls">
-                    <button id="stepBtn">Ett steg</button>
-                    <button id="runBtn">Kjør iterasjon</button>
-                    <button id="resetBtn">Nullstill</button>
-                </div>
-                
-                <div class="publish-section" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <button id="publishBtn" style="background: #27ae60; width: 100%; padding: 12px; font-size: 16px;">📤 Publiser innstillinger</button>
-                    <div id="publishResult" style="margin-top: 15px; font-size: 12px; display: none;">
-                        <div style="margin-bottom: 10px;"><strong>Delbar URL:</strong></div>
-                        <input type="text" id="shareableUrl" readonly style="width: 100%; padding: 8px; border-radius: 5px; border: none; background: rgba(255,255,255,0.1); color: white; font-size: 11px;">
-                        <button id="copyUrlBtn" style="width: 100%; margin-top: 8px; background: #3498db; padding: 8px;">📋 Kopier URL</button>
-                        <div style="margin-top: 15px;"><strong>Eller last ned tilpasset fil:</strong></div>
-                        <button id="downloadBtn" style="width: 100%; margin-top: 8px; background: #9b59b6; padding: 8px;">💾 Last ned HTML-fil</button>
-                    </div>
-                </div>
-                
-                <div class="info">
-                    <div><strong>Fikspunkter:</strong></div>
-                    <div id="fixedPoints">Ingen funnet</div>
-                    <div style="margin-top: 10px;"><strong>Iterasjon:</strong></div>
-                    <div id="iterationInfo">Trykk "Ett steg" for å starte</div>
-                </div>
-            </div>
-            
-            <div class="canvas-container">
-                <canvas id="canvas" width="700" height="500"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Controls
-        const functionSelect = document.getElementById('functionSelect');
-        const paramA = document.getElementById('paramA');
-        const paramB = document.getElementById('paramB');
-        const paramC = document.getElementById('paramC');
-        const paramD = document.getElementById('paramD');
-        const startPoint = document.getElementById('startPoint');
-        
-        // Buttons
-        const stepBtn = document.getElementById('stepBtn');
-        const runBtn = document.getElementById('runBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const publishBtn = document.getElementById('publishBtn');
-        const copyUrlBtn = document.getElementById('copyUrlBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        
-        // Publish elements
-        const publishResult = document.getElementById('publishResult');
-        const shareableUrl = document.getElementById('shareableUrl');
-        
-        // Info displays
-        const fixedPointsDiv = document.getElementById('fixedPoints');
-        const iterationInfoDiv = document.getElementById('iterationInfo');
-        
-        // Value displays
-        const valueDisplays = {
-            paramA: document.getElementById('paramAValue'),
-            paramB: document.getElementById('paramBValue'),
-            paramC: document.getElementById('paramCValue'),
-            paramD: document.getElementById('paramDValue'),
-            startPoint: document.getElementById('startPointValue')
-        };
-        
-        // State
-        let currentX = 1;
-        let iterationCount = 0;
-        let iterationPath = [];
-        let isRunning = false;
-        
-        // Scale and offset for drawing
-        const scale = 80;
-        const offsetX = canvas.width / 2;
-        const offsetY = canvas.height / 2;
-        
-        function updateValueDisplays() {
-            valueDisplays.paramA.textContent = parseFloat(paramA.value).toFixed(1);
-            valueDisplays.paramB.textContent = parseFloat(paramB.value).toFixed(1);
-            valueDisplays.paramC.textContent = parseFloat(paramC.value).toFixed(1);
-            valueDisplays.paramD.textContent = parseFloat(paramD.value).toFixed(1);
-            valueDisplays.startPoint.textContent = parseFloat(startPoint.value).toFixed(1);
-        }
-        
-        function evaluateFunction(x) {
-            const a = parseFloat(paramA.value);
-            const b = parseFloat(paramB.value);
-            const c = parseFloat(paramC.value);
-            const d = parseFloat(paramD.value);
-            
-            switch (functionSelect.value) {
-                case 'linear':
-                    return a * x + b;
-                case 'quadratic':
-                    return a * x * x + b * x + c;
-                case 'cubic':
-                    return a * x * x * x + b * x * x + c * x + d;
-                case 'sin':
-                    return a * Math.sin(b * x) + c;
-                case 'exp':
-                    return a * Math.exp(b * x) + c;
-                case 'sqrt':
-                    return x + b >= 0 ? a * Math.sqrt(x + b) + c : NaN;
-                default:
-                    return 0;
-            }
-        }
-        
-        function findFixedPoints() {
-            const points = [];
-            for (let x = -4; x <= 4; x += 0.01) {
-                const fx = evaluateFunction(x);
-                if (Math.abs(fx - x) < 0.01) {
-                    if (!points.some(p => Math.abs(p - x) < 0.1)) {
-                        points.push(x);
-                    }
-                }
-            }
-            return points;
-        }
-        
-        function drawAxes() {
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 1;
-            
-            ctx.beginPath();
-            ctx.moveTo(0, offsetY);
-            ctx.lineTo(canvas.width, offsetY);
-            ctx.stroke();
-            
-            ctx.beginPath();
-            ctx.moveTo(offsetX, 0);
-            ctx.lineTo(offsetX, canvas.height);
-            ctx.stroke();
-            
-            ctx.strokeStyle = '#eee';
-            ctx.lineWidth = 0.5;
-            for (let i = -10; i <= 10; i++) {
-                if (i === 0) continue;
-                const x = offsetX + i * scale / 2;
-                const y = offsetY + i * scale / 2;
-                
-                if (x >= 0 && x <= canvas.width) {
-                    ctx.beginPath();
-                    ctx.moveTo(x, 0);
-                    ctx.lineTo(x, canvas.height);
-                    ctx.stroke();
-                }
-                
-                if (y >= 0 && y <= canvas.height) {
-                    ctx.beginPath();
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(canvas.width, y);
-                    ctx.stroke();
-                }
-            }
-        }
-        
-        function drawFunction() {
-            ctx.strokeStyle = '#3498db';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            
-            let firstPoint = true;
-            for (let x = -5; x <= 5; x += 0.05) {
-                const fx = evaluateFunction(x);
-                if (isNaN(fx) || Math.abs(fx) > 10) continue;
-                
-                const canvasX = offsetX + x * scale;
-                const canvasY = offsetY - fx * scale;
-                
-                if (canvasX < 0 || canvasX > canvas.width || canvasY < -50 || canvasY > canvas.height + 50) continue;
-                
-                if (firstPoint) {
-                    ctx.moveTo(canvasX, canvasY);
-                    firstPoint = false;
-                } else {
-                    ctx.lineTo(canvasX, canvasY);
-                }
-            }
-            ctx.stroke();
-        }
-        
-        function drawIdentityLine() {
-            ctx.strokeStyle = '#95a5a6';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([5, 5]);
-            
-            ctx.beginPath();
-            const start = -5 * scale;
-            const end = 5 * scale;
-            ctx.moveTo(offsetX + start, offsetY - start);
-            ctx.lineTo(offsetX + end, offsetY - end);
-            ctx.stroke();
-            ctx.setLineDash([]);
-        }
-        
-        function drawFixedPoints() {
-            const fixedPoints = findFixedPoints();
-            
-            ctx.fillStyle = '#e74c3c';
-            fixedPoints.forEach(point => {
-                const x = offsetX + point * scale;
-                const y = offsetY - point * scale;
-                
-                ctx.beginPath();
-                ctx.arc(x, y, 6, 0, 2 * Math.PI);
-                ctx.fill();
-                
-                ctx.fillStyle = '#e74c3c';
-                ctx.font = '12px Arial';
-                ctx.fillText(`(${point.toFixed(2)}, ${point.toFixed(2)})`, x + 10, y - 10);
-            });
-            
-            if (fixedPoints.length === 0) {
-                fixedPointsDiv.innerHTML = 'Ingen funnet';
-            } else {
-                fixedPointsDiv.innerHTML = fixedPoints.map(p => 
-                    `<span class="fixed-point">x = ${p.toFixed(3)}</span>`
-                ).join('<br>');
-            }
-        }
-        
-        function drawIterationPath() {
-            if (iterationPath.length < 2) return;
-            
-            ctx.strokeStyle = '#e67e22';
-            ctx.lineWidth = 2;
-            
-            for (let i = 0; i < iterationPath.length - 1; i++) {
-                const x1 = iterationPath[i];
-                const fx1 = evaluateFunction(x1);
-                const x2 = iterationPath[i + 1];
-                
-                ctx.beginPath();
-                ctx.moveTo(offsetX + x1 * scale, offsetY - x1 * scale);
-                ctx.lineTo(offsetX + x1 * scale, offsetY - fx1 * scale);
-                ctx.stroke();
-                
-                ctx.beginPath();
-                ctx.moveTo(offsetX + x1 * scale, offsetY - fx1 * scale);
-                ctx.lineTo(offsetX + fx1 * scale, offsetY - fx1 * scale);
-                ctx.stroke();
-            }
-            
-            if (iterationPath.length > 0) {
-                const lastX = iterationPath[iterationPath.length - 1];
-                const lastFX = evaluateFunction(lastX);
-                
-                ctx.fillStyle = '#e67e22';
-                ctx.beginPath();
-                ctx.arc(offsetX + lastX * scale, offsetY - lastX * scale, 4, 0, 2 * Math.PI);
-                ctx.fill();
-                
-                ctx.beginPath();
-                ctx.arc(offsetX + lastX * scale, offsetY - lastFX * scale, 4, 0, 2 * Math.PI);
-                ctx.fill();
-            }
-        }
-        
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            drawAxes();
-            drawIdentityLine();
-            drawFunction();
-            drawFixedPoints();
-            drawIterationPath();
-            
-            ctx.fillStyle = '#333';
-            ctx.font = '14px Arial';
-            ctx.fillText('f(x)', canvas.width - 50, 30);
-            ctx.fillText('y = x', canvas.width - 50, 50);
-        }
-        
-        function stepIteration() {
-            if (iterationCount === 0) {
-                currentX = parseFloat(startPoint.value);
-                iterationPath = [currentX];
-            }
-            
-            const fx = evaluateFunction(currentX);
-            currentX = fx;
-            iterationPath.push(currentX);
-            iterationCount++;
-            
-            updateIterationInfo();
-            draw();
-            
-            if (Math.abs(currentX) > 10) {
-                iterationInfoDiv.innerHTML = `<span class="divergent">Divergerer etter ${iterationCount} steg</span>`;
-                return false;
-            }
-            
-            if (iterationCount > 1 && Math.abs(iterationPath[iterationPath.length - 1] - iterationPath[iterationPath.length - 2]) < 0.001) {
-                iterationInfoDiv.innerHTML = `<span class="convergent">Konvergerer til ${currentX.toFixed(3)} etter ${iterationCount} steg</span>`;
-                return false;
-            }
-            
-            return iterationCount < 100;
-        }
-        
-        function updateIterationInfo() {
-            iterationInfoDiv.innerHTML = `Steg ${iterationCount}: x = ${currentX.toFixed(3)}`;
-        }
-        
-        function reset() {
-            currentX = parseFloat(startPoint.value);
-            iterationCount = 0;
-            iterationPath = [];
-            isRunning = false;
-            iterationInfoDiv.innerHTML = 'Trykk "Ett steg" for å starte';
-            draw();
-        }
-        
-        async function runIteration() {
-            if (isRunning) return;
-            isRunning = true;
-            runBtn.textContent = 'Kjører...';
-            runBtn.disabled = true;
-            
-            while (isRunning && stepIteration()) {
-                await new Promise(resolve => setTimeout(resolve, 200));
-            }
-            
-            isRunning = false;
-            runBtn.textContent = 'Kjør iterasjon';
-            runBtn.disabled = false;
-        }
-        
-        function getCurrentSettings() {
-            return {
-                functionType: functionSelect.value,
-                paramA: parseFloat(paramA.value),
-                paramB: parseFloat(paramB.value),
-                paramC: parseFloat(paramC.value),
-                paramD: parseFloat(paramD.value),
-                startPoint: parseFloat(startPoint.value)
-            };
-        }
-        
-        function generatePublishOptions() {
-            const settings = getCurrentSettings();
-            
-            const params = new URLSearchParams();
-            params.set('func', settings.functionType);
-            params.set('a', settings.paramA);
-            params.set('b', settings.paramB);
-            params.set('c', settings.paramC);
-            params.set('d', settings.paramD);
-            params.set('start', settings.startPoint);
-            
-            const currentUrl = window.location.href.split('?')[0];
-            const shareUrl = `${currentUrl}?${params.toString()}`;
-            shareableUrl.value = shareUrl;
-            
-            publishResult.style.display = 'block';
-        }
-        
-        function downloadCustomizedVersion() {
-            const settings = getCurrentSettings();
-            const htmlContent = generateCompleteHTML(settings);
-            
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'fikspunkt-tilpasset.html';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-        
-        function generateCompleteHTML(settings) {
-            return document.documentElement.outerHTML.replace(
-                'value="0.5"', `value="${settings.paramA}"`
-            ).replace(
-                'value="0.5"', `value="${settings.paramB}"`
-            ).replace(
-                'value="0"', `value="${settings.paramC}"`
-            ).replace(
-                'value="0"', `value="${settings.paramD}"`
-            ).replace(
-                'value="1"', `value="${settings.startPoint}"`
-            ).replace(
-                `<option value="${settings.functionType}">`, 
-                `<option value="${settings.functionType}" selected>`
-            );
-        }
-        
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = copyUrlBtn.textContent;
-                copyUrlBtn.style.background = '#27ae60';
-                copyUrlBtn.textContent = '✓ Kopiert!';
-                setTimeout(() => {
-                    copyUrlBtn.style.background = '#3498db';
-                    copyUrlBtn.textContent = originalText;
-                }, 2000);
-            }).catch(() => {
-                alert('Kunne ikke kopiere automatisk. Velg teksten manuelt.');
-            });
-        }
-        
-        function loadFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.has('func')) {
-                functionSelect.value = params.get('func');
-                paramA.value = params.get('a') || 0.5;
-                paramB.value = params.get('b') || 0.5;
-                paramC.value = params.get('c') || 0;
-                paramD.value = params.get('d') || 0;
-                startPoint.value = params.get('start') || 1;
-                updateValueDisplays();
-                draw();
-            }
-        }
-        
-        // Event listeners
-        [paramA, paramB, paramC, paramD, startPoint].forEach(control => {
-            control.addEventListener('input', () => {
-                updateValueDisplays();
-                reset();
-                draw();
-            });
-        });
-        
-        functionSelect.addEventListener('change', () => {
-            reset();
-            draw();
-        });
-        
-        stepBtn.addEventListener('click', stepIteration);
-        runBtn.addEventListener('click', runIteration);
-        resetBtn.addEventListener('click', reset);
-        publishBtn.addEventListener('click', generatePublishOptions);
-        copyUrlBtn.addEventListener('click', () => copyToClipboard(shareableUrl.value));
-        downloadBtn.addEventListener('click', downloadCustomizedVersion);
-        
-        // Initialize
-        updateValueDisplays();
-        loadFromUrl();
-        draw();
-    </script>
+<header>
+    <h1>Velkommen til min GitHub Pages-side</h1>
+</header>
+<nav>
+    <button class="menu-toggle">☰ Meny</button>
+    <ul>
+        <li><a href="index.html">Hjem</a></li>
+        <li><a href="fixed_point_theorem.html">Fikspunkt teorem</a></li>
+        <li><a href="fixed_point_theorem.html">Fil 2</a></li>
+        <li><a href="fixed_point_theorem.html">Fil 3</a></li>
+    </ul>
+</nav>
+<main>
+    <h2>Velg en side:</h2>
+    <ul class="links">
+        <li><a href="fixed_point_theorem.html">Fikspunkt teorem</a></li>
+        <li><a href="fixed_point_theorem.html">Fil 2</a></li>
+        <li><a href="fixed_point_theorem.html">Fil 3</a></li>
+    </ul>
+</main>
+<script>
+    const toggle = document.querySelector('.menu-toggle');
+    const menu = document.querySelector('nav ul');
+    toggle.addEventListener('click', () => {
+        menu.classList.toggle('showing');
+    });
+</script>
 </body>
 </html>
