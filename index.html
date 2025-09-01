@@ -7,8 +7,7 @@
 
   <!-- ========= 1) REDIGER KUN DETTE OMRÅDET ========== -->
   <script>
-    // Liste over sider i SAMME mappe (eller undermapper) som index.html.
-    // Legg til/fjern/endre linjer her – resten oppdateres automatisk.
+    // Legg nye sider her:
     const PAGES = [
       { name: "Fikspunkt", file: "fixed_point_theorem.html" },
       { name: "Fil 2 — Teori",        file: "fil2.html" },
@@ -16,11 +15,17 @@
       // { name: "Ny side", file: "ny.html" },
     ];
 
-    // Valgfritt: åpne lenker i ny fane
+    // Åpne lenker i ny fane?
     const OPEN_IN_NEW_TAB = false;
 
-    // Valgfritt: base-path for GitHub Pages prosjekt-sider (vanligvis ikke nødvendig).
-    // Eksempel: const BASE = "/reponavn/";  (eller "" for relative lenker)
+    // Vis filnavn i kortlisten? (false = skjul)
+    const SHOW_FILE_NAMES = false;
+
+    // Hvis filnavn er skjult, vis dem som tooltip på lenken?
+    const SHOW_FILE_NAMES_AS_TOOLTIP = true;
+
+    // Base-path for GitHub Pages project site (vanligvis tomt).
+    // Eksempel: const BASE = "/reponavn/";
     const BASE = "";
   </script>
   <!-- ========= SLUTT PÅ REDIGER-OMRÅDET ============== -->
@@ -28,8 +33,9 @@
   <style>
     :root {
       --brand: #007acc;
-      --bg: #f4f4f4;
+      --bg: #f6f7f9;
       --text: #222;
+      --muted: #667085;
     }
     * { box-sizing: border-box; }
     body {
@@ -50,9 +56,7 @@
       padding: 0 16px;
     }
     /* Nav */
-    .menu-wrap {
-      background: #333;
-    }
+    .menu-wrap { background: #333; }
     nav {
       max-width: 900px;
       margin: 0 auto;
@@ -69,10 +73,11 @@
       border-radius: 6px;
     }
     nav a:hover { background: #575757; }
-    /* Listekort */
+
+    /* Kortliste */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 14px;
       margin-top: 10px;
     }
@@ -81,18 +86,29 @@
       border-radius: 10px;
       padding: 14px 16px;
       box-shadow: 0 2px 6px rgba(0,0,0,.08);
-      display: flex; gap: 10px; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
     .card a {
       color: var(--brand);
       text-decoration: none;
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
     }
     .card a:hover { text-decoration: underline; }
+    .arrow { color: var(--muted); }
+    /* Skjult filnavn (kan aktiveres i JS) */
     .file {
+      display: none; /* holdes skjult som standard */
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      color: #666;
+      color: var(--muted);
       font-size: .9rem;
+      white-space: nowrap;
     }
     footer {
       text-align: center; color: #666; margin: 32px 0 24px;
@@ -102,8 +118,8 @@
 </head>
 <body>
   <header>
-    <h1>Innhold</h1>
-    <p> Markov-kjede eksempel og fyrtårn </p>
+    <h1>Innholdsindeks</h1>
+    <p>Legg kun til nye elementer i lista øverst — alt under oppdateres automatisk.</p>
   </header>
 
   <div class="menu-wrap">
@@ -111,7 +127,7 @@
   </div>
 
   <div class="container">
-    <h2>Eksempel i denne mappen</h2>
+    <h2>Sider</h2>
     <div id="cards" class="grid" role="list"></div>
   </div>
 
@@ -120,32 +136,46 @@
   </footer>
 
   <script>
-    // Helper: bygger korrekt href (tar hensyn til BASE om satt)
+    // Hjelper: bygg href med base (om satt)
     const hrefFor = f => (BASE ? BASE.replace(/\/?$/, "/") + f : f);
 
-    // Rendre toppmeny + kortliste
     function renderIndex(pages) {
-      // Sortér valgfritt (behold rekkefølgen din ved å fjerne denne)
-      const items = pages.slice(); // .sort((a,b)=> a.name.localeCompare(b.name));
+      const items = pages.slice(); // behold rekkefølge
 
+      // Toppmeny
       const nav = document.getElementById("top-nav");
-      nav.innerHTML = items.map(p =>
-        `<a href="${hrefFor(p.file)}"${OPEN_IN_NEW_TAB ? ' target="_blank" rel="noopener"' : ''}>${p.name}</a>`
-      ).join("");
+      nav.innerHTML = items.map(p => {
+        const href = hrefFor(p.file);
+        const titleAttr = (SHOW_FILE_NAMES_AS_TOOLTIP ? ` title="${p.file}"` : "");
+        return `<a href="${href}"${OPEN_IN_NEW_TAB ? ' target="_blank" rel="noopener"' : ''}${titleAttr}>${p.name}</a>`;
+      }).join("");
 
+      // Kortliste (kun navn; filnavn skjult som standard)
       const cards = document.getElementById("cards");
-      cards.innerHTML = items.map(p => `
-        <div class="card" role="listitem">
-          <a href="${hrefFor(p.file)}"${OPEN_IN_NEW_TAB ? ' target="_blank" rel="noopener"' : ''}>${p.name}</a>
-          <span class="file">${p.file}</span>
-        </div>
-      `).join("");
+      cards.innerHTML = items.map(p => {
+        const href = hrefFor(p.file);
+        const titleAttr = (!SHOW_FILE_NAMES && SHOW_FILE_NAMES_AS_TOOLTIP) ? ` title="${p.file}"` : "";
+        return `
+          <div class="card" role="listitem">
+            <a href="${href}"${OPEN_IN_NEW_TAB ? ' target="_blank" rel="noopener"' : ''}${titleAttr}>
+              ${p.name}
+              <span class="arrow">→</span>
+            </a>
+            <span class="file">${p.file}</span>
+          </div>
+        `;
+      }).join("");
 
+      // Vis filnavn synlig hvis flagget er på
+      if (SHOW_FILE_NAMES) {
+        document.querySelectorAll('.file').forEach(el => el.style.display = 'inline');
+      }
+
+      // Teller
       document.getElementById("count").textContent =
         `${items.length} side${items.length === 1 ? '' : 'r'} listet.`;
     }
 
-    // Init
     renderIndex(PAGES);
   </script>
 </body>
